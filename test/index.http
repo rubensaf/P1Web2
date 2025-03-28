@@ -31,3 +31,8 @@ Content-Type: application/json
 {
  "verificationCode": 379039
 }
+
+### GetUser
+GET http://localhost:3000/api/auth/getuser
+Authorization: Bearer  eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2N2U3MDczMzU0YWRjN2U2OTIyNGM0MmMiLCJpYXQiOjE3NDMxOTM5MDgsImV4cCI6MTc0MzIwMTEwOH0.y2vYvMpxHyVRlITzWNK3TNQjAe0cqIzYpO1FJbKNcwk
+
