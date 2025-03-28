@@ -1,9 +1,14 @@
 const { matchedData, body } = require("express-validator");
-const { tokenSign } = require("../utils/handleJwt.js");
+const { tokenSign , verifyToken } = require("../utils/handleJwt.js");
 const { encrypt , compare } = require("../utils/handlePassword");
 const { handleHttpError } = require("../utils/handleError.js");
 const UsersModel = require("../models/nosql/users");
 
+
+// Función para generar un código de verificación aleatorio
+const generateVerificationCode = () => {
+    return Math.floor(100000 + Math.random() * 900000).toString(); // Código de 6 dígitos
+};
 
 const registerCtrl = async (req, res) => {
     try {
@@ -11,21 +16,27 @@ const registerCtrl = async (req, res) => {
 
         // Encriptar la contraseña
         const password = await encrypt(data.password);
-        const body = { 
-            ...data, 
-            password, 
-            status: data.status || "inactive"  // Si no se pasa status, se asigna 'inactive'
+
+        // Generar código de verificación
+        const verificationCode = generateVerificationCode();
+
+        // Crear usuario con estado 'inactive' hasta que valide su email
+        const body = {
+            ...data,
+            password,
+            status: data.status || "inactive", // Si no se pasa status, se asigna 'inactive'
+            verificationCode // Agregar el código de verificación al usuario
         };
 
         console.log(body);
 
         // Crear usuario en la base de datos
-        const user = await UsersModel.create(body); 
+        const user = await UsersModel.create(body);
 
         // Remover la contraseña del objeto antes de enviarlo
         user.set("password", undefined, { strict: false });
 
-        // Generar el token
+        // Generar el token JWT
         const userData = {
             token: await tokenSign(user), // Generar token de autenticación
             user: {
@@ -34,16 +45,17 @@ const registerCtrl = async (req, res) => {
                 role: user.role,
                 _id: user._id,
                 status: user.status, // Aseguramos que 'status' también se incluya en la respuesta
+                verificationCode // Incluir el código de verificación en la respuesta (solo para pruebas)
             }
         };
 
-        res.send(userData); // Enviar respuesta con token y datos del usuario
+        res.status(201).json(userData); // Enviar respuesta con token y datos del usuario
+
     } catch (err) {
         console.log(err);
         handleHttpError(res, "ERROR_REGISTER_USER");
     }
 };
-
 
 const loginCtrl = async (req, res) => {
     try {
@@ -97,5 +109,20 @@ const loginCtrl = async (req, res) => {
     }
 };
 
+const validateEmailCtrl = async (req, res) => {
+    try {
+        const data = matchedData(req)
+        if(data.code!=req.user.code){
+            res.status(400).send("codigo no valido")
+            return;
+        }
+        await UsersModel.findOneAndUpdate({email: req.user.email}, {status: "validated"})
+        res.json({message: "ack"})
 
-module.exports = { registerCtrl , loginCtrl };
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: "Error en el servidor" });
+    }
+};
+
+module.exports = { registerCtrl, loginCtrl, validateEmailCtrl };

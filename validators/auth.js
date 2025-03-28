@@ -19,4 +19,13 @@ const validatorLogin = [
     }
 ];
 
-module.exports = { validatorRegister, validatorLogin };
+
+const validateVerificationCode = [
+    check("verificationCode")
+        .isNumeric()
+        .isLength({ min: 6, max: 6 })
+        .withMessage("El código debe tener exactamente 6 dígitos"),
+    (req, res, next) => validateResults(req, res, next)
+];
+
+module.exports = { validatorRegister, validatorLogin, validateVerificationCode };

@@ -4,7 +4,7 @@ Content-Type: application/json
 
 {
     "name": "Pedro",
-    "email": "prueba@gmail.com" ,
+    "email": "probando55@gmail.com" ,
     "password": "penelopecruz"
 }
 
@@ -16,6 +16,18 @@ POST http://localhost:3000/api/auth/login
 Content-Type: application/json
 
 {
-    "email": "prueba@gmail.com",
+    "email": "probando111@gmail.com",
     "password": "penelopecruz"
+}
+
+###
+
+
+
+PUT http://localhost:3000/api/auth/validation
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2N2U3MDczMzU0YWRjN2U2OTIyNGM0MmMiLCJpYXQiOjE3NDMxOTM5MDgsImV4cCI6MTc0MzIwMTEwOH0.y2vYvMpxHyVRlITzWNK3TNQjAe0cqIzYpO1FJbKNcwk
+Content-Type: application/json
+
+{
+ "verificationCode": 379039
 }

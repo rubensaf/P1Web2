@@ -22,8 +22,13 @@ const UserScheme = new mongoose.Schema(
             default: "user"
         },
 
-        status:{
-            type:String,
+        status: {
+            type: String,
+            default: 'active'
+        },
+        verificationCode: {
+            type: String, // Código de 6 dígitos para verificar el email
+            required: true
         },
 
     },

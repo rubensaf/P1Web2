@@ -1,5 +1,5 @@
 const jwt = require('jsonwebtoken')
-const jwt_secret = process.env.jwt_secret
+const jwt_secret = process.env.JWT_SECRET
 
 const tokenSign = async (user) => {
     const sign = jwt.sign(
@@ -13,5 +13,15 @@ const tokenSign = async (user) => {
     )
     return sign
 }
+const verifyToken = async (token) => {
 
-module.exports = {tokenSign}
+    try {
+        return jwt.verify(token, jwt_secret);
+    } catch (error) {
+        console.log(error)
+        return null; // Si el token no es válido o expiró, retorna null
+    }
+};
+
+
+module.exports = { tokenSign, verifyToken };
