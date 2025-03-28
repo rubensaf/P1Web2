@@ -20,7 +20,12 @@ const UserScheme = new mongoose.Schema(
             type: String,
             enum: ["user", "admin"], // es como el enum de SQL
             default: "user"
-        }
+        },
+
+        status:{
+            type:String,
+        },
+
     },
     {
         timestamps: true, // TODO createdAt, updatedAt
