@@ -1,19 +1,12 @@
-const jwt = require("jsonwebtoken")
-const getProperties = require("../utils/handlePropertiesEngine")
+const jwt = require('jsonwebtoken')
+const jwt_secret = process.env.jwt_secret
 
-const propertiesKey = getProperties()
-/**
- * El objeto del usuario
- * @param {*} user 
- */
 const tokenSign = async (user) => {
     const sign = jwt.sign(
         {
-            //_id: user._id,
-            [propertiesKey.id]: user[propertiesKey.id], // [] propiedad dinámica
-            role: user.role
+        _id: user.id
         },
-        process.env.JWT_SECRET,
+        jwt_secret,
         {
             expiresIn: "2h"
         }
@@ -21,16 +14,4 @@ const tokenSign = async (user) => {
     return sign
 }
 
-/**
- * Token se sesión
- * @param {*} tokenJwt 
- */
-const verifyToken = async (tokenJwt) => {
-    try {
-        return jwt.verify(tokenJwt, process.env.JWT_SECRET)
-    }catch(err) {
-        console.log(err)
-    }
-}
-
-module.exports = { tokenSign, verifyToken }
+module.exports = {tokenSign}
