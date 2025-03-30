@@ -3,8 +3,8 @@ POST http://localhost:3000/api/auth/register
 Content-Type: application/json
 
 {
-    "name": "Pedro",
-    "email": "probando55@gmail.com" ,
+    "name": "Paco",
+    "email": "Pedrito@gmail.com" ,
     "password": "penelopecruz"
 }
 
@@ -32,7 +32,14 @@ Content-Type: application/json
  "verificationCode": 379039
 }
 
-### GetUser
-GET http://localhost:3000/api/auth/getuser
-Authorization: Bearer  eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2N2U3MDczMzU0YWRjN2U2OTIyNGM0MmMiLCJpYXQiOjE3NDMxOTM5MDgsImV4cCI6MTc0MzIwMTEwOH0.y2vYvMpxHyVRlITzWNK3TNQjAe0cqIzYpO1FJbKNcwk
+### 
+GET http://localhost:3000/api/auth/user
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2N2U5MzQyYjQ0Njg1ZWU3OTkxNDM1ODQiLCJpYXQiOjE3NDMzMzY0OTEsImV4cCI6MTc0MzM0MzY5MX0.ucjiHO22wqUCo8n8WD99IBHyOLtYq5jatyMqi9DtYys
 
+
+### Soft
+DELETE http://localhost:3000/api/auth/user?soft=true
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2N2U5MzQyYjQ0Njg1ZWU3OTkxNDM1ODQiLCJpYXQiOjE3NDMzMzY0OTEsImV4cCI6MTc0MzM0MzY5MX0.ucjiHO22wqUCo8n8WD99IBHyOLtYq5jatyMqi9DtYys
+### Hard
+DELETE http://localhost:3000/api/auth/user?soft=false
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2N2U5MzQyYjQ0Njg1ZWU3OTkxNDM1ODQiLCJpYXQiOjE3NDMzMzY0OTEsImV4cCI6MTc0MzM0MzY5MX0.ucjiHO22wqUCo8n8WD99IBHyOLtYq5jatyMqi9DtYys
