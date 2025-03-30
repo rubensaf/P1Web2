@@ -1,4 +1,6 @@
 const UsersModel = require("../models/nosql/users");
+const { tokenSign } = require('../utils/handleJwt'); 
+const { sendEmail } = require('../utils/handleEmail'); 
 
 exports.getUserCtrl = async (req, res) => {
     try {
@@ -48,5 +50,35 @@ exports.deleteUser = async (req, res) => {
     } catch (error) {
         console.error(error);
         res.status(500).json({ message: 'Error al eliminar el usuario' });
+    }
+};
+exports.forgotPassword = async (req, res) => {
+    try {
+        const { email } = req.body;
+
+        // Buscar usuario por email
+        const user = await UsersModel.findOne({ email });
+        if (!user) {
+            return res.status(404).json({ message: 'Usuario no encontrado' });
+        }
+
+      
+        const resetToken = tokenSign(user);
+
+        // Configurar email con el enlace de recuperación
+        const emailOptions = {
+            from: process.env.EMAIL,
+            to: email,
+            subject: 'Recuperación de contraseña',
+            text: `Para restablecer tu contraseña, haz clic en el siguiente enlace: http://localhost:3000/reset-password/${resetToken}`
+        };
+
+        // Enviar email con el enlace
+        await sendEmail(emailOptions);
+
+        return res.status(200).json({ message: 'Enlace de recuperación enviado al correo' });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Error al enviar el enlace de recuperación' });
     }
 };

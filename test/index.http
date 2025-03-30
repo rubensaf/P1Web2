@@ -3,8 +3,8 @@ POST http://localhost:3000/api/auth/register
 Content-Type: application/json
 
 {
-    "name": "Paco",
-    "email": "Pedrito@gmail.com" ,
+    "name": "Carlis",
+    "email": "nisoyo1940@infornma.com" ,
     "password": "penelopecruz"
 }
 
@@ -43,3 +43,23 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2N2U5MzQyY
 ### Hard
 DELETE http://localhost:3000/api/auth/user?soft=false
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2N2U5MzQyYjQ0Njg1ZWU3OTkxNDM1ODQiLCJpYXQiOjE3NDMzMzY0OTEsImV4cCI6MTc0MzM0MzY5MX0.ucjiHO22wqUCo8n8WD99IBHyOLtYq5jatyMqi9DtYys
+
+###  Recuperación de contraseña
+POST http://localhost:3000/api/auth/forgot
+Content-Type: application/json
+
+{
+    "email": "nisoyo1940@infornma.com"
+}
+
+###
+
+POST http://localhost:3000/api/storage HTTP/1.1
+Content-Type: multipart/form-data; boundary=Boundry
+
+--Boundry
+Content-Disposition: form-data; name="image"; filename="imagen.jpg"
+Content-Type: image/jpg
+
+< ./imagen.jpg
+--Boundry--
